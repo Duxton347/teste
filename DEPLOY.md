@@ -40,9 +40,20 @@ git push origin main
 
 ### Passo 3: Variáveis de Ambiente na Hostinger
 
-Adicione no painel da Hostinger:
+Adicione no painel da Hostinger (Seção: Environment Variables / Variáveis de Ambiente):
 - `VITE_SUPABASE_URL` = sua URL do Supabase
 - `VITE_SUPABASE_ANON_KEY` = sua chave anônima
+
+> [!IMPORTANT]
+> **APÓS ADICIONAR AS VARIÁVEIS, VOCÊ DEVE FAZER UM NOVO DEPLOY!**
+> O Hostinger NÃO atualiza o site automaticamente só de salvar as variáveis.
+> Vá em **Deployments** -> Clique nos **3 pontinhos** do último deploy -> **Redeploy**.
+
+### Solução de Problemas "Failed to fetch"
+Se você ver o erro "CRITICAL ERROR: Supabase environment variables are missing!" no console:
+1. Verifique se digitou o nome EXATO: `VITE_SUPABASE_URL` (tudo maiúsculo).
+2. Verifique se o valor não tem espaços extras.
+3. **Faça o Redeploy** (Reconstruir) para que o Vite possa "tatuar" essas variáveis no código.
 
 ---
 
@@ -84,8 +95,8 @@ npm run build
 
 ## 📝 Notas Importantes
 
-- ✅ O projeto é um **SPA (Single Page Application)** - site estático React
+- ✅ O projeto é um **SPA (Single Page Application)**
 - ✅ A pasta `dist` contém TODOS os arquivos necessários
-- ✅ Não precisa de servidor Node.js rodando - apenas arquivos estáticos
-- ⚠️ **NUNCA** commite o arquivo `.env` (já está no .gitignore)
-- ✅ Após cada mudança: commit → push → Hostinger faz rebuild automático
+- ⚠️ **Importante**: Para o deploy funcionar, configure as VARIÁVEIS DE AMBIENTE no painel da Hostinger (veja seção Passo 3 acima).
+- ⚠️ **Supabase**: Certifique-se de que a `VITE_SUPABASE_ANON_KEY` configurada na Hostinger é EXATAMENTE a mesma do seu painel Supabase.
+- 🔧 **Build Fix**: O arquivo `Sales.tsx` foi renomeado para `SalesView.tsx` para evitar erros de deploy no Linux.
