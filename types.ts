@@ -137,6 +137,7 @@ export interface Visit {
   originType?: 'CALL' | 'TASK' | 'MANUAL';
   originId?: string;
   contactPerson?: string;
+  notes?: string; // Observation about visit purpose
 }
 
 export interface CallRecord {
