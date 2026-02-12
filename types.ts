@@ -18,7 +18,47 @@ export enum CallType {
   POS_VENDA = 'PÓS-VENDA',
   PROSPECCAO = 'PROSPECÇÃO',
   VENDA = 'VENDA',
-  CONFIRMACAO_PROTOCOLO = 'CONFIRMAÇÃO PROTOCOLO'
+  CONFIRMACAO_PROTOCOLO = 'CONFIRMAÇÃO PROTOCOLO',
+  WHATSAPP = 'WHATSAPP'
+}
+
+export enum SaleCategory {
+  QUIMICOS = 'QUÍMICOS',
+  BOMBAS = 'BOMBAS',
+  BOILER = 'BOILER',
+  AQUECEDOR_PISCINA = 'AQUECEDOR PISCINA',
+  FOTOVOLTAICO = 'FOTOVOLTAICO',
+  LINHA_BANHO = 'LINHA BANHO',
+  OUTROS = 'OUTROS'
+}
+
+export enum SaleChannel {
+  WHATSAPP = 'WHATSAPP',
+  PROSPECCAO = 'PROSPECÇÃO',
+  RECUPERACAO = 'RECUPERAÇÃO DE CLIENTE',
+  SITE = 'SITE',
+  LOJA = 'LOJA FÍSICA'
+}
+
+export enum SaleStatus {
+  PENDENTE = 'PENDENTE',
+  ENTREGUE = 'ENTREGUE'
+}
+
+export interface Sale {
+  id: string;
+  saleNumber: string;
+  clientId?: string; // New field
+  clientName: string;
+  address: string;
+  category: SaleCategory;
+  channel: SaleChannel;
+  operatorId: string;
+  status: SaleStatus;
+  value: number;
+  registeredAt: string;
+  deliveredAt?: string;
+  externalSalesperson?: string;
 }
 
 export enum ProtocolStatus {
@@ -66,6 +106,37 @@ export interface Task {
   assignedTo: string;
   status: 'pending' | 'completed' | 'skipped';
   skipReason?: string;
+  scheduledFor?: string; // ISO Date for callback
+  scheduleReason?: string;
+
+  // New fields for Scheduling/Approval
+  approvalStatus?: 'PENDING' | 'APPROVED' | 'RESOLVED';
+  originCallId?: string;
+  targetCallType?: string;
+}
+
+export interface Visit {
+  id: string;
+  clientId?: string;
+  clientName: string;
+  address: string;
+  city?: string;
+  phone: string;
+  salespersonId: string;
+  salespersonName: string;
+  scheduledDate: string; // ISO
+  status: 'PENDING' | 'COMPLETED' | 'CANCELED';
+  outcome?: string;
+  createdAt: string;
+
+  // New fields for Route Management
+  orderIndex?: number;
+  externalSalesperson?: string;
+  isIndication?: boolean;
+  realized?: boolean;
+  originType?: 'CALL' | 'TASK' | 'MANUAL';
+  originId?: string;
+  contactPerson?: string;
 }
 
 export interface CallRecord {
@@ -88,7 +159,7 @@ export interface Protocol {
   clientId: string;
   openedByOperatorId: string;
   ownerOperatorId: string;
-  origin: string; 
+  origin: string;
   departmentId: string;
   categoryId: string;
   title: string;
@@ -112,7 +183,7 @@ export interface ProtocolEvent {
   oldValue?: string;
   newValue?: string;
   note?: string;
-  actorId: string; 
+  actorId: string;
   createdAt: string;
 }
 
@@ -123,4 +194,10 @@ export interface Question {
   type: CallType | 'ALL';
   order: number;
   stageId?: string;
+}
+
+export interface ExternalSalesperson {
+  id: string;
+  name: string;
+  active: boolean;
 }
